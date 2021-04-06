@@ -24,18 +24,19 @@ namespace RaftSolution
             goats.Sort();
             goats.Reverse();
 
-            var currentBest = CreateRaft(goats, k, goats[0]);
             var baseLimit = goats[0];
+            var currentBest = CreateRaft(goats, k, baseLimit);
+
             var sumOfGoatWeighs = goats.Sum();
             var biggerRaft = ++baseLimit;
+
             while (biggerRaft <= sumOfGoatWeighs)
             {
-                if (biggerRaft == 42)
-                {
-                    int a = 5;
-                }
                 var newRaft = CreateRaft(goats, k, biggerRaft);
-                if (newRaft == int.MaxValue)
+
+                var currentRaftLimitDoesntAllowCoursesUnderOrEqualToK = newRaft == int.MaxValue;
+
+                if (currentRaftLimitDoesntAllowCoursesUnderOrEqualToK)
                 {
                     biggerRaft++;
                     continue;
@@ -44,6 +45,7 @@ namespace RaftSolution
                 {
                     currentBest = biggerRaft;
                 }
+
                 biggerRaft++;
             }
 
@@ -53,11 +55,9 @@ namespace RaftSolution
         private static int CreateRaft(List<int> goats, int k, int currentLimit)
         {
             var newGoats = new List<int>();
-            for (int i = 0; i < goats.Count; i++)
-            {
-                newGoats.Add(goats[i]);
-            }
             var goatsPassed = new List<int>();
+            CreateGoatsCopyList(goats, newGoats);
+
             var coursesCounter = 0;
 
             while (newGoats.Count != 0)
@@ -67,18 +67,11 @@ namespace RaftSolution
 
                 while (currentLimit >= currentGoat)
                 {
-                   
+
                     goatsPassed.Add(currentGoat);
                     newGoats.Remove(currentGoat);
                     currentLimit -= currentGoat;
-                    for (int i = 0; i < newGoats.Count; i++)
-                    {
-                        if (currentLimit >= newGoats[i])
-                        {
-                            currentGoat = newGoats[i];
-                            break;
-                        }
-                    }
+                    currentGoat = FindNextGoat(currentLimit, newGoats, currentGoat);
                 }
 
                 currentLimit = resetLimit;
@@ -91,6 +84,28 @@ namespace RaftSolution
             }
 
             return currentLimit;
+        }
+
+        private static void CreateGoatsCopyList(List<int> goats, List<int> newGoats)
+        {
+            for (int i = 0; i < goats.Count; i++)
+            {
+                newGoats.Add(goats[i]);
+            }
+        }
+
+        private static int FindNextGoat(int currentLimit, List<int> newGoats, int currentGoat)
+        {
+            for (int i = 0; i < newGoats.Count; i++)
+            {
+                if (currentLimit >= newGoats[i])
+                {
+                    currentGoat = newGoats[i];
+                    break;
+                }
+            }
+
+            return currentGoat;
         }
     }
 }
