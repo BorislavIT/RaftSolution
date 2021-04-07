@@ -25,8 +25,7 @@ namespace RaftSolution
                 .Select(int.Parse)
                 .ToList();
 
-            goats.Sort();
-            goats.Reverse();
+            goats = goats.OrderByDescending(x => x).ToList();
 
             var baseLimit = goats[0];
             var currentBest = CreateRaft(goats, k, baseLimit);
