@@ -54,4 +54,4 @@ Input
 
 Output
 810201
-Time elapsed: 360.5469908 seconds
+Time elapsed: 312 seconds
