@@ -1,0 +1,53 @@
+George is out with his goats at the shore. He wants to get them through the shore, making not more than K courses with a raft with a particular capacity.
+The goats aren't the same - some of them are small, others are large and third are ill. George wants to find out what's the minimum raft
+capacity which would allow him to get all of his N goats to the other side with not more than K courses.
+
+The order of which goats go through first matters.
+The strategy is the following:
+Every course he puts the largest goat, which fits, after that the second largest, which fits together with the 
+first, then the next, which fits with the first two. After no other goat can fit, he takes them to the other side
+he comes back and uses the same procedure for the others. If after K courses there are goats to be taken to the other side
+that means that the capacity isn't enough. From the strategy stated above, the capacity needs to be at least the size
+of the biggest goat. Help George!
+
+Input
+
+First row
+N and K - amount of goats and maximum amount of courses.
+
+Second row
+A1, A2, ..., AN - weight of the goats -> INTEGERS
+
+Output
+One INTEGER - minimum capacity of the raft, which would allow all of the goats to pass with courses < K, using george's strategy.
+
+Limitations:
+
+1 ≤ N ≤ 1000, 1 ≤ K ≤ 1000, 1 ≤ Ai ≤ 100000
+
+Examples:
+
+Input
+
+6 2
+26 7 10 30 5 4
+
+Output
+42
+
+Input
+
+6 2
+4 8 15 16 23 42
+
+Output
+54
+
+
+Input
+
+15 3
+666 42 7 13 400 511 600 200 202 111 313 94 280 72 42
+
+Output
+1186

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RaftSolution
 {
@@ -12,6 +13,9 @@ namespace RaftSolution
                 .Split(' ')
                 .Select(int.Parse)
                 .ToList();
+
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             var n = inputArgs[0];
             var k = inputArgs[1];
@@ -28,7 +32,8 @@ namespace RaftSolution
             var currentBest = CreateRaft(goats, k, baseLimit);
 
             var sumOfGoatWeighs = goats.Sum();
-            var biggerRaft = ++baseLimit;
+            var incrementAmount = goats.Min();
+            var biggerRaft = baseLimit + incrementAmount;
 
             while (biggerRaft <= sumOfGoatWeighs)
             {
@@ -46,17 +51,17 @@ namespace RaftSolution
                     currentBest = biggerRaft;
                 }
 
-                biggerRaft++;
+                biggerRaft+= incrementAmount;
             }
 
-            Console.WriteLine("Current best is :" + currentBest.ToString());
+            Console.WriteLine("Current best is: " + currentBest.ToString());
+            Console.WriteLine("Time elapsed: " + stopwatch.Elapsed.TotalSeconds);
         }
 
         private static int CreateRaft(List<int> goats, int k, int currentLimit)
         {
-            var newGoats = new List<int>();
+            var newGoats = goats.ToList();
             var goatsPassed = new List<int>();
-            CreateGoatsCopyList(goats, newGoats);
 
             var coursesCounter = 0;
 
@@ -84,14 +89,6 @@ namespace RaftSolution
             }
 
             return currentLimit;
-        }
-
-        private static void CreateGoatsCopyList(List<int> goats, List<int> newGoats)
-        {
-            for (int i = 0; i < goats.Count; i++)
-            {
-                newGoats.Add(goats[i]);
-            }
         }
 
         private static int FindNextGoat(int currentLimit, List<int> newGoats, int currentGoat)
